@@ -3,11 +3,11 @@
 import { onCurrentUser } from "../user"
 import { createAnimation, getAutomations } from "./queries"
 
-export const createAutomations = async() => {
+export const createAutomations = async(id?: string) => {
     const user = await onCurrentUser()
 
     try {
-        const create = await createAnimation(user.id);
+        const create = await createAnimation(user.id, id);
         if(create) return {status: 200, data: 'Automation created'}
         return { status: 404, data: 'Oops! something went wrong' }
     } catch (error) {
@@ -16,12 +16,12 @@ export const createAutomations = async() => {
 }
 
 export const getAllAutomations = async () => {
-    const user = await onCurrentUser()
-    try {
-      const automations = await getAutomations(user.id)
-      if (automations) return { status: 200, data: automations.automations }
-      return { status: 404, data: [] }
-    } catch (error) {
-      return { status: 500, data: [] }
-    }
+  const user = await onCurrentUser()
+  try {
+    const automations = await getAutomations(user.id)
+    if (automations) return { status: 200, data: automations.automations }
+    return { status: 404, data: [] }
+  } catch (error) {
+    return { status: 500, data: [] }
   }
+}
